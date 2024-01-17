@@ -32,3 +32,38 @@ const getUser = async(username) => {
 
 // first call
 getUser("1axat")
+
+
+const getRepos = async(username) => {
+    const repos = document.querySelector("#repos")
+    const response = await fetch(APIURL + username + "/repos")
+    const data = await response.json();
+    data.slice(0,10).forEach(
+        (item) => {
+
+            const elem = document.createElement("a")
+            elem.classList.add("repo")
+            elem.href = item.html_url
+            elem.innerText = item.name
+            elem.target = "_blank"
+            repos.appendChild(elem)
+        }
+    )
+}
+
+const formSubmit = () => {
+    if (searchBox.value != "") {
+        getUser(searchBox.value);
+        searchBox.value = ""
+    }
+    return false;
+}
+
+
+searchBox.addEventListener(
+        "focusout",
+        function() {
+            formSubmit()
+        }
+    )
+    
